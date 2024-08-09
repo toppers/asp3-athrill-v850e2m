@@ -1,0 +1,3 @@
+[submodule "athrill-target-v850e2m"]
+	path = athrill-target-v850e2m
+	url = https://github.com/toppers/athrill-target-v850e2m.git
