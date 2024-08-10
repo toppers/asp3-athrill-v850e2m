@@ -1,36 +1,13 @@
-FROM ubuntu:20.04 as athrill-v850e2m-builder
+FROM toppersjp/athrill-v850e2m-builder:v1.0.0 as asp3-athrill-v850e2m-builder
 
-ARG DEBIAN_FRONTEND=noninteractive
+# rbenvとruby-buildをインストールし、Ruby 2.6.5をセットアップ
+RUN git clone https://github.com/sstephenson/rbenv.git /root/.rbenv && \
+    git clone https://github.com/sstephenson/ruby-build.git /root/.rbenv/plugins/ruby-build && \
+    /root/.rbenv/bin/rbenv install 2.6.5 && \
+    /root/.rbenv/bin/rbenv global 2.6.5
 
-RUN apt-get update
-RUN apt-get install -y \
-	git	\
-	build-essential	\
-	wget	\
-	gcc	\
-	g++	\
-	ruby	\
-	vim	\
-	gem \
-	libssl-dev libreadline-dev zlib1g-dev \
-	make	\
-	autoconf \
-	automake \
-	pkg-config \
-	curl \
-	net-tools \
-	netcat \
-	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/*
+# Rubyのバージョンをパスに追加
+ENV PATH /root/.rbenv/bin:/root/.rbenv/versions/2.6.5/bin:${PATH}
 
-WORKDIR /root
-RUN wget https://github.com/toppers/athrill-gcc-v850e2m/releases/download/v1.1/athrill-gcc-package.tar.gz 
-RUN tar xzvf athrill-gcc-package.tar.gz && \
-	rm -f athrill-gcc-package.tar.gz
-WORKDIR /root/athrill-gcc-package
-RUN	tar xzvf athrill-gcc.tar.gz && \
-	rm -f athrill-gcc-package.tar.gz && \
-	rm -f *.tar.gz
-WORKDIR /root/workspace
-ENV PATH /root/athrill-gcc-package/usr/local/athrill-gcc/bin/:${PATH}
-
+# RubyのエンコーディングをUTF-8に設定
+ENV RUBYOPT -EUTF-8
