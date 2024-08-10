@@ -11,3 +11,5 @@ ENV PATH /root/.rbenv/bin:/root/.rbenv/versions/2.6.5/bin:${PATH}
 
 # RubyのエンコーディングをUTF-8に設定
 ENV RUBYOPT -EUTF-8
+
+WORKDIR /root/asp3
