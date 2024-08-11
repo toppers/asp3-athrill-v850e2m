@@ -16,11 +16,9 @@ fi
 cd run
 if [ `uname` = "Darwin" ]
 then
-    MEMORY_CONFIG="memory_mac.txt"
+    PROXY_CONFIG="proxy_config_mac.json"
 else
-    MEMORY_CONFIG="memory_lnx.txt"
+    PROXY_CONFIG="proxy_config_lnx.json"
 fi
 
-../athrill-target-v850e2m/cmake-build/athrill2 \
-    -c1 -i -m ${MEMORY_CONFIG} -d device_config.txt \
-    ../asp3/${APPNAME}/asp
+hako-proxy ${PROXY_CONFIG}
