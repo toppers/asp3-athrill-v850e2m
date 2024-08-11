@@ -103,7 +103,8 @@ void exc_task(intptr_t exinf)
 
 void timer_interrupt_handler(void)
 {
-
+	static int count = 0;
+	syslog(LOG_NOTICE, "task1 count: %d", count++);
 	return;
 }
 
@@ -122,7 +123,7 @@ void task1(intptr_t exinf)
 {
 	syslog(LOG_NOTICE, "task1 waked up");
 	while (1) {
-		dly_tsk(1000);
+		dly_tsk(1000000);
 		timer_interrupt_handler();
 	}
 }
