@@ -13,6 +13,10 @@
 
 dockerを利用しますので、事前にインストールをお願いします。
 
+また、本リポジトリで利用する docker イメージは、以下が作成されていることを前提としていますので、事前にインストールをお願いします。
+
+[ベアメタルプログラム・ビルド環境のインストール](https://github.com/toppers/baremetal-athrill-v850e2m?tab=readme-ov-file#%E3%83%99%E3%82%A2%E3%83%A1%E3%82%BF%E3%83%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%83%93%E3%83%AB%E3%83%89%E7%92%B0%E5%A2%83%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
+
 ## 全体アーキテクチャ
 
 以下は、システム全体のアーキテクチャを示す図です。
@@ -425,7 +429,7 @@ athrill-device/device/hakosample
 
 Athrillデバイスのコールバック関数は `hakoniwa_device.c` で定義されており、Athrillはこの関数テーブルを参照して、必要なタイミングでコールします。
 
-```
+```C
 AthrillExDeviceType athrill_ex_device = {
 		.header.magicno = ATHRILL_EXTERNAL_DEVICE_MAGICNO,
 		.header.version = ATHRILL_EXTERNAL_DEVICE_VERSION,
@@ -447,7 +451,7 @@ AthrillExDeviceType athrill_ex_device = {
 * 読み込みの場合は、箱庭PDUデータを読み込みし、内部キャッシュデータに書き込みします。
 
 詳細：
-```
+```C
 void ex_device_supply_clock(DeviceClockType *dev_clock)
 {
     /*
@@ -488,7 +492,7 @@ void ex_device_supply_clock(DeviceClockType *dev_clock)
 それ以外のI/Oについては、デバイス内部メモリへのI/Oとして実現しています。
 
 ４バイトの読み込み：
-```
+```C
 static Std_ReturnType ex_hakoniwadev_get_data32(MpuAddressRegionType *region, CoreIdType core_id, uint32 addr, uint32 *data)
 {
 	uint32 off = (addr - region->start);
@@ -503,7 +507,7 @@ static Std_ReturnType ex_hakoniwadev_get_data32(MpuAddressRegionType *region, Co
 ```
 
 ４バイトの書き込み：
-```
+```C
 static Std_ReturnType ex_hakoniwadev_put_data32(MpuAddressRegionType *region, CoreIdType core_id, uint32 addr, uint32 data)
 {
 	uint32 off = (addr - region->start);
