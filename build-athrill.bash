@@ -51,9 +51,6 @@ function build_device()
 build_device hakotime
 build_device hakosample
 
-
-
-
 ./athrill-target-v850e2m/cmake-build/athrill2
 if [ $? -eq 0 ]
 then

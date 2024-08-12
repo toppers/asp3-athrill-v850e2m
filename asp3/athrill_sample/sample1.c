@@ -100,11 +100,19 @@ void alarm_handler(intptr_t exinf)
 void exc_task(intptr_t exinf)
 {
 }
+#define EX_DEVICE_MEMORY_START  0x090F0000
+#define EX_DEVICE_MEMORY_SIZE	(1U * 1024U) /* Bytes */
 
+#define HAKO_SMAPLEDEV_TX_ADDR EX_DEVICE_MEMORY_START
+#define HAKO_SMAPLEDEV_RX_ADDR (EX_DEVICE_MEMORY_START + 4U)
 void timer_interrupt_handler(void)
 {
-	static int count = 0;
-	syslog(LOG_NOTICE, "task1 count: %d", count++);
+	static int count = 1024;
+	uint32 data = sil_rew_mem(HAKO_SMAPLEDEV_RX_ADDR);
+	syslog(LOG_NOTICE, "task1 read data: %u", data);
+	sil_wrw_mem(HAKO_SMAPLEDEV_TX_ADDR, (uint32)count);
+	syslog(LOG_NOTICE, "task1 write data: %d", count);
+	count++;
 	return;
 }
 
