@@ -30,7 +30,7 @@ then
             --net host \
             -e APP_NAME=${APP_NAME} \
             --name ${IMAGE_NAME} ${DOCKER_IMAGE} \
-             /bin/bash -c "cd ${APP_NAME} && make"
+             /bin/bash -c "cd ${APP_NAME} && rm -f *.o && rm -f asp && make"
     else
         docker run \
             -v ${HOST_WORKDIR}:${DOCKER_DIR} \
@@ -39,7 +39,7 @@ then
             --net host \
             -e APP_NAME=${APP_NAME} \
             --name ${IMAGE_NAME} ${DOCKER_IMAGE} \
-             /bin/bash -c "cd ${APP_NAME} && make"
+             /bin/bash -c "cd ${APP_NAME} && rm -f *.o && rm -f asp && make"
     fi
 else
     docker run \
@@ -49,5 +49,5 @@ else
         --net host \
         -e APP_NAME=${APP_NAME} \
         --name ${IMAGE_NAME} ${DOCKER_IMAGE} \
-         /bin/bash -c "cd ${APP_NAME} && make"
+        /bin/bash -c "cd ${APP_NAME} && rm -f *.o && rm -f asp && make"
 fi

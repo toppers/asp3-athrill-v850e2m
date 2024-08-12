@@ -100,6 +100,42 @@ void alarm_handler(intptr_t exinf)
 void exc_task(intptr_t exinf)
 {
 }
+
+// 数値を文字列に変換する関数
+void uint32_to_str(uint32_t num, char *str) {
+    int i = 0;
+    if (num == 0) {
+        str[i++] = '0';
+        str[i] = '\0';
+        return;
+    }
+
+    // 数値を逆順で文字列に変換
+    while (num != 0) {
+        str[i++] = (num % 10) + '0';
+        num /= 10;
+    }
+    str[i] = '\0';
+
+    // 文字列を反転
+    int j = 0;
+    char temp;
+    for (j = 0; j < i / 2; j++) {
+        temp = str[j];
+        str[j] = str[i - j - 1];
+        str[i - j - 1] = temp;
+    }
+}
+#define SERIAL_OUT_ADDR		((volatile unsigned char*)0xFFFFFA07)
+
+void test_print(const char *str)
+{
+	int i;
+	for (i = 0; str[i] != '\0'; i++) {
+		*(SERIAL_OUT_ADDR) = str[i];
+	}
+}
+
 #define EX_DEVICE_MEMORY_START  0x090F0000
 #define EX_DEVICE_MEMORY_SIZE	(1U * 1024U) /* Bytes */
 
@@ -109,9 +145,18 @@ void timer_interrupt_handler(void)
 {
 	static int count = 1024;
 	uint32 data = sil_rew_mem(HAKO_SMAPLEDEV_RX_ADDR);
-	syslog(LOG_NOTICE, "task1 read data: %u", data);
+	char data_str[12]; // uint32_t の最大桁数は10桁 + 終端文字
+    uint32_to_str(data, data_str);
+	test_print("<task1>: read data = ");
+	test_print(data_str);
+	test_print("\n");
+
+    uint32_to_str((unsigned int)count, data_str);
+	test_print("<task1> write data = ");
+	test_print(data_str);
+	test_print("\n");
 	sil_wrw_mem(HAKO_SMAPLEDEV_TX_ADDR, (uint32)count);
-	syslog(LOG_NOTICE, "task1 write data: %d", count);
+
 	count++;
 	return;
 }
