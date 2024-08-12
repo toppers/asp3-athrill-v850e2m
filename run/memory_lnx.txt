@@ -1,3 +1,4 @@
 ROM, 0x00000000, 512
 RAM, 0x05FF7000, 512
+DEV,  0x090F0000, /usr/local/lib/hakoniwa/libhakosample.so
 DEV,  0x900F0000, /usr/local/lib/hakoniwa/libhakotime.so
