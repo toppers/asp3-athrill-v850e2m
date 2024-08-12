@@ -1,0 +1,16 @@
+{
+    "asset_name": "athrill",
+    "robo_name": "Robot",
+    "target_exec_dir": ".",
+    "target_bin_path": "../athrill-target-v850e2m/cmake-build/athrill2",
+    "target_options": [
+        "-c1",
+        "-i",
+        "-d",
+        "./device_config.txt",
+        "-m",
+        "./memory_mac.txt",
+        "../asp3/athrill_sample/asp"
+    ]
+}
+
